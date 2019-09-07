@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.github.mtdp</groupId>
+    <artifactId>tdp-quick-start</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  
+  <groupId>com.github.mtdp</groupId>
+  <artifactId>tdp-quick-start-api</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <name>tdp-quick-start-api Maven</name>
+  <url>http://maven.apache.org</url>
+  
+  <dependencies>
+  	<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+ 	<finalName>tdp-quick-start-api</finalName>
+ 	<plugins>
+ 	   <plugin>
+	      <artifactId>maven-source-plugin</artifactId>
+	        <executions>
+	          <execution>
+	            <id>attach-sources</id>
+	            <goals>
+	              <goal>jar-no-fork</goal>
+	            </goals>
+	            <configuration>
+	              <attach>true</attach>
+	            </configuration>
+	          </execution>
+	        </executions>
+	        <configuration>
+	          <attach>true</attach>
+	        </configuration>
+	    </plugin>
+ 	 </plugins>
+  </build>
+</project>
