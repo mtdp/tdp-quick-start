@@ -1,4 +1,4 @@
-package com.github.mtdp.req;
+package com.github.mtdp.quick.req;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import lombok.ToString;
  * 
  *
  * @Description 请求
- * @author gqwang
+ * @author wangguoqing
  * @date 2019年9月7日上午11:14:24
  *
  */
@@ -24,6 +24,9 @@ public class GenerateRequest implements Serializable {
 	/**工程保存路径**/
 	private String projectPath;
 	
+	/**是否覆盖**/
+	private boolean override;
+	
 	/**连接数据库url,例如:jdbc:mysql://127.0.0.1:3306/tdp?useUnicode=true&amp;characterEncoding=UTF-8 **/
 	private String jdbcUrl;
 	
@@ -33,7 +36,17 @@ public class GenerateRequest implements Serializable {
 	/**密码**/
 	private String passwrod;
 	
+	/**数据库名称**/
+	private String dbSchema;
+	
 	/**数据库表名前缀**/
 	private String tablePrefix;
+	
+	/**基础包名**/
+	private String basePackage;
+	
+	/**作者**/
+	private String author;
+	
 
 }

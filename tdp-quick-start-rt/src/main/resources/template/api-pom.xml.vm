@@ -5,28 +5,27 @@
   
   <parent>
     <groupId>com.github.mtdp</groupId>
-    <artifactId>tdp-quick-start</artifactId>
+    <artifactId>${projectName}</artifactId>
     <version>1.0.0</version>
   </parent>
   
   <groupId>com.github.mtdp</groupId>
-  <artifactId>tdp-quick-start-api</artifactId>
+  <artifactId>${projectName}-api</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
-  <name>tdp-quick-start-api Maven</name>
+  <name>${projectName}-api Maven</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
-  	<!-- lombok -->
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <scope>provided</scope>
+  	<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   
   <build>
- 	<finalName>tdp-quick-start-api</finalName>
+ 	<finalName>${projectName}-api</finalName>
  	<plugins>
  	   <plugin>
 	      <artifactId>maven-source-plugin</artifactId>

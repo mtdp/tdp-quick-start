@@ -4,23 +4,24 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.github.mtdp</groupId>
-    <artifactId>tdp-quick-start</artifactId>
+    <artifactId>test1</artifactId>
     <version>1.0.0</version>
   </parent>
   <groupId>com.github.mtdp</groupId>
-  <artifactId>tdp-quick-start-rt</artifactId>
+  <artifactId>test1-rt</artifactId>
   <version>1.0.0</version>
   <packaging>war</packaging>
-  <name>tdp-quick-start-rt Maven Webapp</name>
+  <name>test1-rt Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
+  
   	<dependency>
-  		<groupId>com.github.mtdp</groupId>
-		 <artifactId>tdp-quick-start-api</artifactId>
-		 <version>1.0.0</version>
+  	   <groupId>com.github.mtdp</groupId>
+  	   <artifactId>tdp-utils</artifactId>
+  	   <version>2.0.1</version>
   	</dependency>
-  	<dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -36,51 +37,11 @@
         <artifactId>lombok</artifactId>
         <scope>provided</scope>
     </dependency>
-    
-  	<dependency>
-  	   <groupId>com.github.mtdp</groupId>
-  	   <artifactId>tdp-utils</artifactId>
-  	   <version>2.1.0</version>
-  	   <exclusions>
-			<!-- 
-  	   		<exclusion>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-			</exclusion>
-			<exclusion>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jul-to-slf4j</artifactId>
-			</exclusion>
-			 -->
-			<exclusion>
-				<groupId>org.slf4j</groupId>
-				<artifactId>log4j-over-slf4j</artifactId>
-			</exclusion>
-			<!-- 
-			<exclusion>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-			</exclusion>
-			<exclusion>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-			</exclusion>
-			<exclusion>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-core</artifactId>
-			</exclusion>
-			<exclusion>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-			</exclusion>
-			-->
-  	   </exclusions>
-  	</dependency>
-    
+	
   </dependencies>
   
   <build>
-    <finalName>tdp-quick-start-rt</finalName>
+    <finalName>test1-rt</finalName>
     <resources>
         <resource>
             <directory>src/main/resources</directory>
@@ -88,8 +49,7 @@
                 <include>spring/*.xml</include>
                 <include>logback.xml</include>
                 <include>META-INF/**</include>
-                <include>spring/*.properties</include>
-                <include>template/*.*</include>
+                <include>config/*.properties</include>
             </includes>
         </resource>
         <!-- 将mybatis dao的xml配置复制到classes 目录 -->
@@ -126,7 +86,7 @@
 				<reload>manual</reload>
 				<!-- jetty7之后的配置-->
 				<webAppConfig>
-					<contextPath>/tdp-quick-start</contextPath>
+					<contextPath>/test1</contextPath>
 				</webAppConfig>
 				<connectors>
 					<!--7.0.0.1beta3 之前用  org.mortbay.jetty.nio.SelectChannelConnector -->
