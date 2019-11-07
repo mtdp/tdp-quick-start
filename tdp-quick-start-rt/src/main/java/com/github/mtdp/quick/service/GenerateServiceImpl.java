@@ -67,12 +67,19 @@ public class GenerateServiceImpl implements GenerateService {
 		Map<String, Object> params = BeanUtil.beanTrans2Map(req, false);
 		List<DoMainBO> list = queryTableInfo(req);
 		try {
-			String domainPath = pro.getRtPath() + QuickConstants.MAIN_JAVA_PATH + req.getBasePackage() + TdpUtilConstants.FILE_PATH_SEPARATOR + QuickConstants.DOMAIN_PATH; 
+			String domainPath = pro.getRtMainJavaPath() + QuickConstants.DOMAIN_PATH; 
+			String mapperPath = pro.getRtMainJavaPath() + QuickConstants.MAPPER_PATH;
 			for(DoMainBO domain : list) {
+				domain.setMapperName(domain.getDomainName() + QuickConstants.MAPPER_SUFFIX);
+				
 				Map<String, Object> bParams = BeanUtil.beanTrans2Map(domain, false);
 				params.putAll(bParams);
 				VelocityUtil.merge(QuickConstants.DOMAIN, params, domainPath + domain.getDomainName() + QuickConstants.JAVA_FILE_SUFFIX);
-				//TODO xml & 接口
+				//xml & 接口
+				
+				VelocityUtil.merge(QuickConstants.MAPPER, params, mapperPath + domain.getMapperName() + QuickConstants.JAVA_FILE_SUFFIX);
+				
+				VelocityUtil.merge(QuickConstants.MAPPER_XML, params,mapperPath + domain.getMapperName() + QuickConstants.MAPPER_FILE_SUFFIX);
 			}
 		} catch (Exception e) {
 			log.error("generate code ex",e);
@@ -93,8 +100,8 @@ public class GenerateServiceImpl implements GenerateService {
 				Class.forName(QuickConstants.CLASS_NAME);
 				Connection conn = DriverManager.getConnection(req.getJdbcUrl(), req.getUserName(), req.getPasswrod());
 				
-				String sql = "select table_name,table_comment from information_schema.tables where table_schema = '?' and table_name like concat('%','?','%')";
-				String sql2 = "select column_name,data_type,column_comment from information_schema.columns where table_schema = '?' and table_name = '?'";
+				String sql = "select table_name,table_comment from information_schema.tables where table_schema = ? and table_name like concat('%',?,'%')";
+				String sql2 = "select column_name,data_type,column_comment,column_key,extra from information_schema.columns where table_schema = ? and table_name = ?";
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, req.getDbSchema());
 				pstmt.setString(2, req.getTablePrefix());
@@ -105,32 +112,47 @@ public class GenerateServiceImpl implements GenerateService {
 					String tblName = resultSet.getString("table_name");
 					String tblComment = resultSet.getString("table_comment");
 					TableInfoBO tbl = new TableInfoBO();
-					tbl.setName(tblName);
-					tbl.setComment(tblComment);
+					tbl.setTblName(tblName);
+					tbl.setTblComment(tblComment);
 					tableInfos.add(tbl);
 				}
 				//查询字段
 				for(TableInfoBO info : tableInfos) {
 					DoMainBO domain = new DoMainBO();
 					domain.setAuthor(req.getAuthor());
-					String tempName = info.getName().replace(req.getTablePrefix(), "");
-					domain.setDomainName(BeanUtil.underline2Camel(tempName));
-					domain.setDesc(info.getComment());
+					domain.setTableName(info.getTblName());
+					String tempName = info.getTblName().replace(req.getTablePrefix(), "");
+					domain.setDomainName(BeanUtil.firstLetter2UpperCase(BeanUtil.underline2Camel(tempName)));
+					domain.setDesc(info.getTblComment());
 					
 					pstmt = conn.prepareStatement(sql2);
 					pstmt.setString(1, req.getDbSchema());
-					pstmt.setString(2, info.getName());
+					pstmt.setString(2, info.getTblName());
 					ResultSet result = pstmt.executeQuery();
+					List<PropertyBO> properties = Lists.newArrayList();
 					while(result.next()) {
 						String columnName = result.getString("column_name");
 						String dataType = result.getString("data_type");
 						String comment = result.getString("column_comment");
+						
 						PropertyBO prop = new PropertyBO();
+						prop.setColumnName(columnName);
 						prop.setName(BeanUtil.underline2Camel(columnName));
 						//类型转换
 						prop.setType(dataTypeCoverJavaType(dataType));
 						prop.setComment(comment);
+						//主键及自增
+						if(QuickConstants.PRIMARY_KEY.equalsIgnoreCase(result.getString("column_key"))) {
+							prop.setPrimaryKey(true);
+							domain.setPrimaryName(prop.getName());
+						}
+						if(QuickConstants.AUTO_INCREMENT.equalsIgnoreCase(result.getString("extra"))){
+							prop.setAutoCrement(true);
+							domain.setAutoCrement(true);
+						}
+						properties.add(prop);
 					}
+					domain.setProperties(properties);
 					domains.add(domain);
 				}
 			} catch (Exception e) {
@@ -188,6 +210,7 @@ public class GenerateServiceImpl implements GenerateService {
 		String rtMainJavaPath = rtPath + QuickConstants.MAIN_JAVA_PATH + basePackage + TdpUtilConstants.FILE_PATH_SEPARATOR;
 		String rtTestJavaPath = rtPath + QuickConstants.TEST_JAVA_PATH + basePackage + TdpUtilConstants.FILE_PATH_SEPARATOR;
 		
+		String rtMainServicePath = rtMainJavaPath + QuickConstants.SERVICE_PATH;
 		String rtMainResourcePath = rtPath + QuickConstants.MAIN_RESOURCES_PATH;
 		String rtMainConfigPath = rtMainResourcePath + QuickConstants.RT_CONFIG_DIR_NAME + TdpUtilConstants.FILE_PATH_SEPARATOR;
 		String rtMainSpringPath = rtMainResourcePath + QuickConstants.RT_SPRING_DIR_NAME + TdpUtilConstants.FILE_PATH_SEPARATOR;
@@ -205,6 +228,7 @@ public class GenerateServiceImpl implements GenerateService {
 		listPath.add(rtMainConfigPath);
 		listPath.add(rtMainSpringPath);
 		listPath.add(rtMainMybatisPath);
+		listPath.add(rtMainServicePath);
 		
 		for(String path : listPath) {
 			FileUtil.createDirectory(path);
@@ -218,6 +242,7 @@ public class GenerateServiceImpl implements GenerateService {
 		pro.setRtMainConfigPath(rtMainConfigPath);
 		pro.setRtMainMybatisPath(rtMainMybatisPath);
 		pro.setRtMainSpringPath(rtMainSpringPath);
+		pro.setRtMainJavaPath(rtMainJavaPath);
 		return pro;
 	}
 	

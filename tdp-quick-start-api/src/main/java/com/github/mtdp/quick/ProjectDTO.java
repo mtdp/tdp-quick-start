@@ -30,4 +30,6 @@ public class ProjectDTO implements Serializable{
 	
 	private String rtMainMybatisPath;
 	
+	private String rtMainJavaPath;
+	
 }

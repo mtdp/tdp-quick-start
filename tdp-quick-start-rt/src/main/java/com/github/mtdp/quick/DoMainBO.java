@@ -23,4 +23,14 @@ public class DoMainBO implements Serializable{
 	/**属性列表**/
 	private List<PropertyBO> properties;
 	
+	/**mapper 接口名称**/
+	private String mapperName;
+	
+	/**表名**/
+	private String tableName;
+	
+	/**主键名称**/
+	private String primaryName;
+	
+	private boolean isAutoCrement = false;
 }

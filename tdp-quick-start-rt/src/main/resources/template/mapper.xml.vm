@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="${basePackage}.dal.dao.${mapperName}">
+		<select id="listAll" resultType="${domainName}">
+			select *
+			from ${tableName}
+		</select>
+		
+		<select id="get" resultType="${domainName}">
+			select *
+			from ${tableName}
+			where oid=#{oid}
+		</select>
+		
+		<insert id="save" parameterType="${domainName}" #if(!${isAutoCrement}) useGeneratedKeys="true" keyProperty="${primaryName}" #end>
+			insert into ${tableName}
+		    <trim prefix="(" suffix=")" suffixOverrides=",">
+			#foreach ($p in $properties)
+ $p.columnName,
+			#end			
+</trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #foreach ($p in $properties)
+ #{$p.name},
+            #end			
+</trim>
+		</insert>
+		
+		<delete id="deleteById">
+			delete 
+			from ${tableName}
+			where oid=#{oid}
+		</delete>
+		
+		<update id="update" parameterType="${domainName}">
+			update ${tableName} 
+			<trim prefix="SET" suffixOverrides=",">
+				#foreach ($p in $properties)
+<if test="$p.name != null">
+                   $p.columnName = #{$p.name},
+                </if>
+				#end
+</trim>
+			where oid=#{oid}
+		</update>
+		
+	</mapper>

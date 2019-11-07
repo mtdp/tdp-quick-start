@@ -13,6 +13,12 @@ public class PropertyBO implements Serializable{
 	
 	private String name;
 	
+	private String columnName;
+	
 	private String comment; 
+	
+	private boolean isPrimaryKey = false;
+	
+	private boolean isAutoCrement = false;
 	
 }

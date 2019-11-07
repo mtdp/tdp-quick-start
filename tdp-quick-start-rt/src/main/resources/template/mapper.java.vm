@@ -1,0 +1,17 @@
+package ${basePackage}.dal.dao;
+
+import com.github.mtdp.persistence.BaseMapper;
+import ${basePackage}.dal.domain.${domainName};
+
+
+/**
+ * 
+ *
+ * @Description ${desc}
+ * @author ${author}
+ * @date ${date}
+ *
+ */
+public interface ${mapperName} extends BaseMapper<${domainName}, Long> {
+
+}

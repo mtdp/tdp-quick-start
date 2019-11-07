@@ -9,8 +9,8 @@ public class TableInfoBO implements Serializable{
 
 	private static final long serialVersionUID = -3885796122265170805L;
 	
-	private String Name;
+	private String tblName;
 	
-	private String comment;
+	private String tblComment;
 
 }

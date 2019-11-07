@@ -17,6 +17,17 @@
   <dependencies>
   	<dependency>
   		<groupId>com.github.mtdp</groupId>
+	  	<artifactId>tdp-common</artifactId>
+	  	<version>2.1.0</version>
+	  	<exclusions>
+	  		<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>log4j-over-slf4j</artifactId>
+			</exclusion>
+	  	</exclusions>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.github.mtdp</groupId>
 		 <artifactId>tdp-quick-start-api</artifactId>
 		 <version>1.0.0</version>
   	</dependency>
@@ -36,7 +47,10 @@
         <artifactId>lombok</artifactId>
         <scope>provided</scope>
     </dependency>
-    
+    <dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	</dependency>
   	<dependency>
   	   <groupId>com.github.mtdp</groupId>
   	   <artifactId>tdp-utils</artifactId>

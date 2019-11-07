@@ -1,9 +1,10 @@
-package ${basepackage}.dal.domain;
+package ${basePackage}.dal.domain;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 
@@ -15,11 +16,16 @@ import lombok.Data;
  */
  
 @Data
+@ToString
 public class ${domainName} implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-#foreach ($p in $properties)
-	private $p.type $p.name;
-#end
 	
+#foreach ($p in $properties)
+	#if("$!p.comment" != "")
+/** $p.comment **/
+	#end
+private $p.type $p.name;
+
+#end	
 }
