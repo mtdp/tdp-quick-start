@@ -13,7 +13,7 @@
 			where oid=#{oid}
 		</select>
 		
-		<insert id="save" parameterType="${domainName}" #if(!${isAutoCrement}) useGeneratedKeys="true" keyProperty="${primaryName}" #end>
+		<insert id="save" parameterType="${domainName}" #if(!${isAutoCrement}) useGeneratedKeys="true" keyProperty="${primaryName}" #end >
 			insert into ${tableName}
 		    <trim prefix="(" suffix=")" suffixOverrides=",">
 			#foreach ($p in $properties)
