@@ -26,7 +26,8 @@ public class GenerateServiceTest {
 		req.setBasePackage("com.github.test");
 		req.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/quick_test?useUnicode=true&amp;characterEncoding=UTF-8");
 		req.setUserName("root");
-		req.setPasswrod("root@root");
+		//TODO 
+		req.setPasswrod("****@****");
 		req.setDbSchema("quick_test");
 		req.setTablePrefix("t_");
 		req.setAuthor("wangguoqing");
